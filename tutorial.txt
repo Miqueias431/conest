@@ -19,6 +19,16 @@ Passo 5:
 Na janela principal, deixar o objeto win público (gerenciar o banco)
 
 Passo 6:
+Criar uma função para verificar o status de conexão (criar após ultima 
+linha do main) este passo poderia estar junto com o app.whenReady(), por 
+uma questão de organização e melhor entendimento
+
 
 Passo 7:
-Dentro do app.W
+Dentro do app.whenReady()
+execultar a função statusConexao()
+
+Passo 8:
+Importante! Dentro de app.whenReady()
+criar um método para desconectar o banco de dados quando a janela principal 
+for fechada
