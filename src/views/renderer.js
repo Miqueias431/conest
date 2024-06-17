@@ -1,0 +1,3 @@
+function sobre() {
+    api.openAbout()
+}
