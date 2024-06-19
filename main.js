@@ -46,6 +46,75 @@ const aboutWindow = () => {
     })
 }
 
+// Janela Clientes
+let clientes 
+
+const clientesWindow = () => {
+
+    // se a janela clientes não estiver aberta (BUG 1) abrir
+    if (!clientes) {
+        clientes = new BrowserWindow({
+            width: 420,  // Largura
+            height: 300,  // Altura
+            icon: './src/public/img/estoque192.png',
+            resizable: false, // Evitar o redimensionameto
+            autoHideMenuBar: true, // Esconde a barra de menu
+        })
+    }
+
+    clientes.loadFile('./src/views/clientes.html')
+    // Resolver BUG 2 (reabrir a janela se estiver fechada)
+    clientes.on('closed', () => {
+        clientes = null
+    })
+}
+
+// Janela Fornecedores
+let fornecedores
+
+const fornecedoresWindow = () => {
+
+    // se a janela fornecedores não estiver aberta (BUG 1) abrir
+    if (!fornecedores) {
+        fornecedores = new BrowserWindow({
+            width: 420,  // Largura
+            height: 300,  // Altura
+            icon: './src/public/img/estoque192.png',
+            resizable: false, // Evitar o redimensionameto
+            autoHideMenuBar: true, // Esconde a barra de menu
+        })
+    }
+
+    fornecedores.loadFile('./src/views/fornecedores.html')
+    // Resolver BUG 2 (reabrir a janela se estiver fechada)
+    fornecedores.on('closed', () => {
+        fornecedores = null
+    })
+}
+
+// Janela Produtos
+let produtos
+
+const produtosWindow = () => {
+
+    // se a janela produtos não estiver aberta (BUG 1) abrir
+    if (!produtos) {
+        produtos = new BrowserWindow({
+            width: 420,  // Largura
+            height: 300,  // Altura
+            icon: './src/public/img/estoque192.png',
+            resizable: false, // Evitar o redimensionameto
+            autoHideMenuBar: true, // Esconde a barra de menu
+        })
+    }
+
+    produtos.loadFile('./src/views/produtos.html')
+    // Resolver BUG 2 (reabrir a janela se estiver fechada)
+    produtos.on('closed', () => {
+        produtos = null
+    })
+}
+
 // Iniciar a aplicação
 app.whenReady().then(() => {
     createWindow()
@@ -74,6 +143,23 @@ app.on('window-all-closed', () => {
     }
 })
 
+ipcMain.on('open-about', () => {
+    aboutWindow()
+})
+
+ipcMain.on('open-produtos-window', () => {
+    produtosWindow()
+})
+
+ipcMain.on('open-clientes-window', () => {
+    clientesWindow()
+})
+
+ipcMain.on('open-fornecedores-window', () => {
+    fornecedoresWindow()
+})
+
+
 // template do menu personalizado
 const template = [
 
@@ -81,12 +167,52 @@ const template = [
         label: 'Arquivo',
         submenu: [
             {
+                label: 'Clientes',
+                click: () => clientesWindow()
+            },
+            {
+                label: 'Fornecedores',
+                click: () => fornecedoresWindow()
+            },
+            {
+                label: 'Produtos',
+                click: () => produtosWindow()
+            },
+            {
                 label: 'Sair',
                 click: () => app.quit(),
                 accelerator: 'Alt+F4'
             }
         ]
     },
+    {
+        label: 'Exibir',
+        submenu: [
+          {
+            label: 'Recarregar',
+            role: 'reload'
+          },
+          {
+            label: 'Ferramentas do desenvolvedor',
+            role: 'toggleDevTools'
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Aplicar zoom',
+            role: 'zoomIn'
+          },
+          {
+            label: 'Reduzir',
+            role: 'zoomOut'
+          },
+          {
+            label: 'Restalra o zoom padrão',
+            role: 'resetZoom'
+          }
+        ]
+      },
     {
         label: 'Ajuda',
         submenu: [
@@ -110,6 +236,3 @@ const statusConexao = async () => {
     }
 }
 
-ipcMain.on('open-about', () => {
-    aboutWindow()
-})

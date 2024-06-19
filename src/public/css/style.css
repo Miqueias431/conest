@@ -24,3 +24,21 @@ footer p {
     color: #fff;
     margin: 12px 0;
 }
+
+.imagens{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-left: -125px;
+}
+
+.Container {
+    display: flex;
+    justify-content: left;
+
+}
+
+.MIT img {
+    width: 50px;
+    height: 50px;
+}
