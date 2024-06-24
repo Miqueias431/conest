@@ -8,14 +8,15 @@ ipcRenderer.on('db-status', (event, status) => {
 
 // Gerenciamento de processos (desempenho e segurança)
 contextBridge.exposeInMainWorld('api', {
-    verElectron: () => process.versions.electron ,
+    verElectron: () => process.versions.electron,
     hello: () => ipcRenderer.send('send-message', "Oi!"),
     openAbout: () => ipcRenderer.send('open-about'),
     openprodutosWindow: () => ipcRenderer.send('open-produtos-window'),
     openclientesWindow: () => ipcRenderer.send('open-clientes-window'),
     openfornecedoresWindow: () => ipcRenderer.send('open-fornecedores-window'),
-
+    
 })
+
 
 
 // Inserir data na pagina
@@ -32,6 +33,6 @@ function obterData() {
 }
 
 // Interagir diretamente no DOM do documento html (index.html)
-window.addEventListener('DOMContentLoaded', () =>{
+window.addEventListener('DOMContentLoaded', () => {
     const dataAtual = document.getElementById('dataAtual').innerHTML = obterData()
 })

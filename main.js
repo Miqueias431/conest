@@ -28,6 +28,7 @@ let about //Resolver BUG de abertura de várias janelas
 nativeTheme.themeSource = 'light'
 const aboutWindow = () => {
 
+    const father = BrowserWindow.getFocusedWindow()
     // se a janela about não estiver aberta (BUG 1) abrir
     if (!about) {
         about = new BrowserWindow({
@@ -36,6 +37,8 @@ const aboutWindow = () => {
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
+            parent: father,
+            modal: true
         })
     }
 
@@ -51,6 +54,7 @@ let clientes
 
 const clientesWindow = () => {
 
+    const father = BrowserWindow.getFocusedWindow()
     // se a janela clientes não estiver aberta (BUG 1) abrir
     if (!clientes) {
         clientes = new BrowserWindow({
@@ -59,6 +63,8 @@ const clientesWindow = () => {
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
+            parent: father,
+            modal: true
         })
     }
 
@@ -74,6 +80,8 @@ let fornecedores
 
 const fornecedoresWindow = () => {
 
+    const father = BrowserWindow.getFocusedWindow()
+
     // se a janela fornecedores não estiver aberta (BUG 1) abrir
     if (!fornecedores) {
         fornecedores = new BrowserWindow({
@@ -82,6 +90,8 @@ const fornecedoresWindow = () => {
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
+            parent: father,
+            modal: true
         })
     }
 
@@ -97,6 +107,8 @@ let produtos
 
 const produtosWindow = () => {
 
+    const father = BrowserWindow.getFocusedWindow()
+
     // se a janela produtos não estiver aberta (BUG 1) abrir
     if (!produtos) {
         produtos = new BrowserWindow({
@@ -105,6 +117,8 @@ const produtosWindow = () => {
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
+            parent: father,
+            modal: true 
         })
     }
 
@@ -158,6 +172,8 @@ ipcMain.on('open-clientes-window', () => {
 ipcMain.on('open-fornecedores-window', () => {
     fornecedoresWindow()
 })
+
+
 
 
 // template do menu personalizado

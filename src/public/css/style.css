@@ -4,12 +4,14 @@ h1 {
     transition: .5s;
 }
 h1:hover {
-    font-size: 40px;
+    font-size: 35px;
     transition: .5s;
 }
 
 /* Rodapé */
 footer { 
+    display: flex;
+    justify-content: space-between;
     background-color: #373f4d;
     width: 100%;
     position: fixed;
@@ -18,25 +20,27 @@ footer {
 
 footer p {
     display: flex;
-    justify-content: center;
-    font-size: 0.8em;
-    font-weight: 450;
+    align-items: center;
+    font-size: .9em;
+    font-weight: 500;
     color: #fff;
-    margin: 12px 0;
+    margin: 12px 20px;
 }
 
-.imagens{
+footer img {
+    width: 40px;
+    height: 40px;
+    margin: 12px 20px;
+}
+
+.botaoimg {
     display: flex;
-    flex-direction: column;
-    margin-top: 50px;
-    margin-left: -125px;
+    justify-content: space-around;
+    flex-direction: row;
+    margin: 50px 0;
+    cursor: pointer;
 }
 
-.Container {
-    display: flex;
-    justify-content: left;
-
-}
 
 .MIT img {
     margin-left: 35px;
@@ -46,4 +50,23 @@ footer p {
 
 .MIT p {
     font-weight: 500;
+}
+
+.ok {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: #d9d2d2;
+    width: 100%;
+    padding: 5px 0 ;
+}
+
+.okbtn {
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+    padding: 1px 25px;
+    background-color: #d3d3d3;
+    border: gray solid 1px;
+    color: #000;
 }

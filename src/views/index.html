@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>CONEST - Controle de estoque</title>
 
     <!-- bootsrap -->
@@ -15,11 +16,10 @@
 </head>
 
 <body>
-    <div class="container Container">
+    <div class="container">
         <h1>CONEST</h1>
-
-        <div class="imagens">
-            <button onclick="clientes()" class="btn"><img src="../public/img/cliente.png"></button>
+        <div class="botaoimg">
+            <button onclick="clientes()" class="btn btn-sm" ><img src="../public/img/cliente.png"></button>
             <button onclick="fornecedores()" class="btn"><img src="../public/img/fornecedor.png"></button>
             <button onclick="produtos()" class="btn"><img src="../public/img/produtos.png"></button>
         </div>
@@ -28,6 +28,7 @@
     <!-- Rodapé -->
     <footer>
         <p id="dataAtual"></p>
+        <img src="../public/img/dboff.png" alt="">
     </footer>
 
     <script src="../public/js/bootstrap.min.js"></script>
