@@ -58,8 +58,8 @@ const clientesWindow = () => {
     // se a janela clientes não estiver aberta (BUG 1) abrir
     if (!clientes) {
         clientes = new BrowserWindow({
-            width: 420,  // Largura
-            height: 300,  // Altura
+            width: 800,  // Largura
+            height: 600,  // Altura
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
@@ -85,8 +85,8 @@ const fornecedoresWindow = () => {
     // se a janela fornecedores não estiver aberta (BUG 1) abrir
     if (!fornecedores) {
         fornecedores = new BrowserWindow({
-            width: 420,  // Largura
-            height: 300,  // Altura
+            width: 800,  // Largura
+            height: 600,  // Altura
             icon: './src/public/img/estoque192.png',
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
