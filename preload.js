@@ -14,10 +14,8 @@ contextBridge.exposeInMainWorld('api', {
     openprodutosWindow: () => ipcRenderer.send('open-produtos-window'),
     openclientesWindow: () => ipcRenderer.send('open-clientes-window'),
     openfornecedoresWindow: () => ipcRenderer.send('open-fornecedores-window'),
-    
+
 })
-
-
 
 // Inserir data na pagina
 function obterData() {
@@ -31,6 +29,7 @@ function obterData() {
 
     return data.toLocaleDateString('pt-br', options)
 }
+
 
 // Interagir diretamente no DOM do documento html (index.html)
 window.addEventListener('DOMContentLoaded', () => {

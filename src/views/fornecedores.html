@@ -1,11 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- evitar ataques de Cross Site Scripting (injeção de dados)
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'"> -->
     <title>Fornecedores</title>
+    <!-- bootsrap -->
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+
+    <!-- css personalizado -->
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
-    <h1>Fornecedores</h1>
+    <br>
+    <div class="container">
+        <form class="row g-3" id="frmFornecedor">
+
+
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputSearch" maxlength="30" spellcheck="false">
+            </div>
+
+            <div class="col-md-4">
+                <button type="button" class="btn btn-outline-dark" id="btnRead">Buscar</button>
+            </div>
+
+            <hr class="border border-secondary border-1 opacity-75">
+
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="inputIdForn" maxlength="30" spellcheck="false" placeholder="id">
+            </div>
+
+            <div class="col-md-8">
+                <label for="inputRazao" class="form-label">Razão social</label>
+                <input type="text" class="form-control" id="inputRazao" required maxlength="30" spellcheck="false">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputPhone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="inputPhone" required maxlength="15" spellcheck="false">
+            </div>
+
+            <div class="col-6">
+                <label for="inputEmail" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="inputEmail" maxlength="30" spellcheck="false">
+            </div>
+
+            <div class="col-6">
+                <label for="inputCnpj" class="form-label">CNPJ</label>
+                <input type="text" class="form-control" id="inputCnpj" maxlength="14" spellcheck="false">
+            </div>
+
+            <div class="col-md-7">
+                <label for="inputCEP" class="form-label">Digite o CEP:</label>
+                <input type="text" maxlength="8" class="form-control" id="inputCEP">
+            </div>
+            
+            <div class="col-md-3 ">
+                <button type="button" class="btn btn-outline-secondary" id="btnBuscaForne" name="btnBuscaForne" onclick="" >Buscar</button>
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputLogradouro" class="form-label">Logradouro:</label>
+                <input type="text" class="form-control" id="inputLogradouro" name="inputLogradouro" maxlength="30">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputBairro" class="form-label">Bairro:</label>
+                <input type="text" class="form-control" id="inputBairro" name="inputBairro" maxlength="30">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputLocalidade" class="form-label">Localidade:</label>
+                <input type="text" class="form-control" id="inputLocalidade" name="inputLocalidade" maxlength="30">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputUF" class="form-label">UF:</label>
+                <input type="text" class="form-control" id="inputUF" name="inputUF" maxlength="2">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputNumero" class="form-label">Número:</label>
+                <input type="text" class="form-control" id="inputNumero" name="inputNumero" maxlength="5">
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputComplemento" class="form-label">Complemento:</label>
+                <input type="text" class="form-control" id="inputComplemento" name="inputComplemento" maxlength="75">
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
+                <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
+                <button type="reset" class="btn" id="btnReset"></button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="../public/js/bootstrap.min.js"></script>
+    <script src="./cep.js"></script>
 </body>
+
 </html>

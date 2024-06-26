@@ -21,6 +21,7 @@
     "electron": "^31.0.1"
   },
   "dependencies": {
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.4.1",
+    "readline-sync": "^1.4.10"
   }
 }

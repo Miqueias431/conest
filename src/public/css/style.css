@@ -57,6 +57,12 @@ h1:hover {
     display: none;
 }
 
+/* esconder id fornecedor */
+
+#inputIdForn{
+    display: none;
+}
+
 /* Inserir img no botão reset */
 
 #btnReset {
@@ -67,6 +73,12 @@ h1:hover {
     border: none;
     cursor: pointer;
     margin-left: 30px;
+}
+
+/* Parte Fornecedor */
+
+#btnBuscaForne {
+    margin-top: 32px;
 }
 
 
