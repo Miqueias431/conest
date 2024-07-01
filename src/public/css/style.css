@@ -81,6 +81,20 @@ h1:hover {
     margin-top: 32px;
 }
 
+/* Parte Produtos */
+
+/* img do produto */
+
+#imageProduct {
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    width: 260px;
+    height: 260px;
+    padding: 4px;
+    position: fixed;
+    right: 150px;
+    bottom: 100px;
+}
 
 /* Rodapé */
 footer { 
