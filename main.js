@@ -129,6 +129,33 @@ const produtosWindow = () => {
     })
 }
 
+// Janela Relatório
+let relatorio
+
+const relatorioWindow = () => {
+
+    const father = BrowserWindow.getFocusedWindow()
+
+    // se a janela relatorio não estiver aberta (BUG 1) abrir
+    if (!relatorio) {
+        relatorio = new BrowserWindow({
+            width: 1280,  // Largura
+            height: 720,  // Altura
+            icon: './src/public/img/estoque192.png',
+            resizable: false, // Evitar o redimensionameto
+            autoHideMenuBar: true, // Esconde a barra de menu
+            parent: father,
+            modal: true
+        })
+    }
+
+    relatorio.loadFile('./src/views/relatorio.html')
+    // Resolver BUG 2 (reabrir a janela se estiver fechada)
+    relatorio.on('closed', () => {
+        relatorio = null
+    })
+}
+
 // Iniciar a aplicação
 app.whenReady().then(() => {
     createWindow()
@@ -173,7 +200,9 @@ ipcMain.on('open-fornecedores-window', () => {
     fornecedoresWindow()
 })
 
-
+ipcMain.on('opne-relatorio', () => {
+    relatorioWindow()
+})
 
 
 // template do menu personalizado
@@ -228,6 +257,10 @@ const template = [
             role: 'resetZoom'
           }
         ]
+      },
+      {
+        label: 'Relatório',
+        click: () => relatorioWindow()
       },
     {
         label: 'Ajuda',

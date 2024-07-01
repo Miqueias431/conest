@@ -56,16 +56,27 @@
 
             <div class="col-md-7">
                 <label for="inputCEP" class="form-label">Digite o CEP:</label>
-                <input type="text" maxlength="8" class="form-control" id="inputCEP">
+                <input type="text" maxlength="9" class="form-control" id="inputCEP" name="txtCEP">
             </div>
             
             <div class="col-md-3 ">
-                <button type="button" class="btn btn-outline-secondary" id="btnBuscaForne" name="btnBuscaForne" onclick="" >Buscar</button>
+                <button type="button" class="btn btn-outline-secondary" id="btnBuscaForne" name="btnBuscaForne" onclick="buscarcep()" >Buscar</button>
             </div>
 
-            <div class="col-md-4">
+            <!-- Resultado -->
+            <div class="col-md-5">
                 <label for="inputLogradouro" class="form-label">Logradouro:</label>
                 <input type="text" class="form-control" id="inputLogradouro" name="inputLogradouro" maxlength="30">
+            </div>
+
+            <div class="col-md-2">
+                <label for="inputNumero" class="form-label">Número:</label>
+                <input type="text" class="form-control" id="inputNumero" name="inputNumero" maxlength="5">
+            </div>
+
+            <div class="col-md-5">
+                <label for="inputComplemento" class="form-label">Complemento:</label>
+                <input type="text" class="form-control" id="inputComplemento" name="inputComplemento" maxlength="75">
             </div>
 
             <div class="col-md-4">
@@ -74,24 +85,18 @@
             </div>
 
             <div class="col-md-4">
-                <label for="inputLocalidade" class="form-label">Localidade:</label>
+                <label for="inputLocalidade" class="form-label">Cidade:</label>
                 <input type="text" class="form-control" id="inputLocalidade" name="inputLocalidade" maxlength="30">
             </div>
 
-            <div class="col-md-4">
-                <label for="inputUF" class="form-label">UF:</label>
+            <div class="col-md-2">
+                <label for="inputUF" class="form-label">Estado:</label>
                 <input type="text" class="form-control" id="inputUF" name="inputUF" maxlength="2">
             </div>
 
-            <div class="col-md-4">
-                <label for="inputNumero" class="form-label">Número:</label>
-                <input type="text" class="form-control" id="inputNumero" name="inputNumero" maxlength="5">
-            </div>
 
-            <div class="col-md-4">
-                <label for="inputComplemento" class="form-label">Complemento:</label>
-                <input type="text" class="form-control" id="inputComplemento" name="inputComplemento" maxlength="75">
-            </div>
+
+
 
             <div class="col-12">
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>

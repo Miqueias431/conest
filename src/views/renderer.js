@@ -18,3 +18,6 @@ function produtos() {
     api.openprodutosWindow()
 }
 
+function relatorio() {
+    api.openRelatorio()
+}

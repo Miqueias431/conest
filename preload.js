@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('api', {
     openprodutosWindow: () => ipcRenderer.send('open-produtos-window'),
     openclientesWindow: () => ipcRenderer.send('open-clientes-window'),
     openfornecedoresWindow: () => ipcRenderer.send('open-fornecedores-window'),
+    openRelatorio: () => ipcRenderer.send('opne-relatorio')
 
 })
 
