@@ -14,8 +14,9 @@ contextBridge.exposeInMainWorld('api', {
     openprodutosWindow: () => ipcRenderer.send('open-produtos-window'),
     openclientesWindow: () => ipcRenderer.send('open-clientes-window'),
     openfornecedoresWindow: () => ipcRenderer.send('open-fornecedores-window'),
-    openRelatorio: () => ipcRenderer.send('opne-relatorio')
-
+    openRelatorio: () => ipcRenderer.send('opne-relatorio'),
+    dbMessage: (message) => ipcRenderer.on('send-message', message),
+    newClient: (cliente) => ipcRenderer('new-client', cliente)
 })
 
 // Inserir data na pagina

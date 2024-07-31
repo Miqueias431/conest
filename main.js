@@ -5,6 +5,9 @@ const path = require('node:path')
 // Importar o módulo de conexão
 const { conectar, desconectar } = require('./database.js')
 
+// Importação do Schema (model) das coleções("tabelas")
+const clienteModel = require ('./src/models/Cliente.js')
+
 
 // Janela Principal (definir o objeto win como variavel publica)
 let win
@@ -38,7 +41,10 @@ const aboutWindow = () => {
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
             parent: father,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
 
@@ -64,7 +70,10 @@ const clientesWindow = () => {
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
             parent: father,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
 
@@ -91,7 +100,10 @@ const fornecedoresWindow = () => {
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
             parent: father,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
 
@@ -118,7 +130,10 @@ const produtosWindow = () => {
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
             parent: father,
-            modal: true 
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
 
@@ -145,7 +160,10 @@ const relatorioWindow = () => {
             resizable: false, // Evitar o redimensionameto
             autoHideMenuBar: true, // Esconde a barra de menu
             parent: father,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
 
@@ -162,8 +180,8 @@ app.whenReady().then(() => {
 
     //   status de conexão com o banco de dados
     ipcMain.on('send-message', (event, message) => {
-        console.log(`<<< ${message} >>>`)
         statusConexao()
+        console.log(`<<< ${message} >>>`)
     })
 
     // Desconectar do banco ao encerrar a janela
@@ -203,6 +221,8 @@ ipcMain.on('open-fornecedores-window', () => {
 ipcMain.on('opne-relatorio', () => {
     relatorioWindow()
 })
+
+
 
 
 // template do menu personalizado
@@ -279,9 +299,36 @@ const template = [
 const statusConexao = async () => {
     try {
         await conectar()
-        win.webContents.send('db-status', "Banco de dados conectado.")
+        win.webContents.send('db-status', "conectado")
     } catch (error) {
         win.webContents.send('db-status', `Erro de conexão: ${error.message}`)
     }
 }
 
+// CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-client', async (event, cliente) => {
+    console.log(cliente) // Teste do passo 2 - slide
+    // Passo 3 (slide): Cadastrar o cliente no MongoDB
+    try {
+        // Extrair os dados do objeto
+        const novoCliente = new clienteModel({
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli
+        })
+
+        await novoCliente.save() // save() - moongoose
+    } catch (error) {
+        console.log(error)
+    }
+})
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

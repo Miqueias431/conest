@@ -32,3 +32,18 @@ Passo 8:
 Importante! Dentro de app.whenReady()
 criar um método para desconectar o banco de dados quando a janela principal 
 for fechada
+
+Passo 9: Usar o preload.js e IPC (ipcRenderer e ipcMain) para criar uma regra que permita
+modificar o ícone do banco de dados
+
+Passo 10: Criar a pasta models
+
+Passo 11:
+- Criar o modelo para clientes
+Cliente.js (1ª letra maiúscula)
+
+Passo 12:
+- Importar o schema no main.js
+
+CRUD (Create(Insert), Read(Select), Update(Update), Delete(Delete)): 
+- Seguir o slide fornecidos
