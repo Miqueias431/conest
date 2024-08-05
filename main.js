@@ -1,12 +1,16 @@
-const { ipcMain, Menu, nativeTheme } = require('electron')
-const { app, BrowserWindow } = require('electron/main')
+const { app, BrowserWindow, ipcMain, Menu, shell, nativeTheme, dialog } = require('electron')
 const path = require('node:path')
 
 // Importar o módulo de conexão
-const { conectar, desconectar } = require('./database.js')
+const { dbStatus, desconectar } = require('./database.js')
+// status de conexão do banco de dados (No MongoDB é mais eficiente manter uma única conexão aberta durante todo o tempo de vida do aplicativo e usá-la conforme necessário. Fechar e reabrir a conexão frequentemente pode aumentar a sobrecarga e causar problemas de desempenho)
+// a função dbStatus garante que a conexão com o banco de dados seja estabelecida apenas uma vez e reutilizada.
+// a variável abaixo é usada para garantir que o sistema inicie com o banco de dados desconectado
+let dbCon = null
 
 // Importação do Schema (model) das coleções("tabelas")
 const clienteModel = require ('./src/models/Cliente.js')
+const fornecedorModel = require ('./src/models/Fornecedor.js')
 
 
 // Janela Principal (definir o objeto win como variavel publica)
@@ -176,18 +180,19 @@ const relatorioWindow = () => {
 
 // Iniciar a aplicação
 app.whenReady().then(() => {
-    createWindow()
-
-    //   status de conexão com o banco de dados
-    ipcMain.on('send-message', (event, message) => {
-        statusConexao()
-        console.log(`<<< ${message} >>>`)
+    
+    // status de conexão com o banco de dados
+    ipcMain.on('send-message', async (event, message) => {
+        dbCon = await dbStatus()
+        event.reply('db-message', "conectado")
     })
 
     // Desconectar do banco ao encerrar a janela
     app.on('before-quit', async () => {
-        await desconectar()
+        await desconectar(dbCon)
     })
+
+    createWindow()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -221,9 +226,6 @@ ipcMain.on('open-fornecedores-window', () => {
 ipcMain.on('opne-relatorio', () => {
     relatorioWindow()
 })
-
-
-
 
 // template do menu personalizado
 const template = [
@@ -296,14 +298,7 @@ const template = [
 
 //-------------------------------------------------------------
 // Função para verificar status de conexão com o banco de dados
-const statusConexao = async () => {
-    try {
-        await conectar()
-        win.webContents.send('db-status', "conectado")
-    } catch (error) {
-        win.webContents.send('db-status', `Erro de conexão: ${error.message}`)
-    }
-}
+
 
 // CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ipcMain.on('new-client', async (event, cliente) => {
@@ -318,10 +313,50 @@ ipcMain.on('new-client', async (event, cliente) => {
         })
 
         await novoCliente.save() // save() - moongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Cliente cadastrado com sucesso!',
+            buttons: ['Ok']
+        })
     } catch (error) {
         console.log(error)
     }
 })
+
+ipcMain.on('new-fornecedor', async (event, fornecedor) => {
+    console.log(fornecedor) 
+    // Passo 3 (slide): Cadastrar o fornecedor no MongoDB
+    try {
+        // Extrair os dados do objeto
+        const novoFornecedor = new fornecedorModel({
+            nomeFornecedor: fornecedor.nomeFor,
+            foneFornecedor: fornecedor.foneFor,
+            emailFornecedor: fornecedor.emailFor,
+            cnpjFornecedor: fornecedor.cnpjFor,
+            cepFornecedor: fornecedor.cepFor,
+            logFornecedor: fornecedor.logFor,
+            numFornecedor: fornecedor.numFor,
+            compFornecedor: fornecedor.compFor,
+            bairroFornecedor: fornecedor.bairroFor,
+            cidFornecedor: fornecedor.cidFor,
+            ufFornecedor: fornecedor.ufFor
+            
+        })
+
+        await novoFornecedor.save() // save() - moongoose
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Fornecedor cadastrado com sucesso!',
+            buttons: ['Ok']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

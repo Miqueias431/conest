@@ -10,25 +10,45 @@ const mongoose = require('mongoose')
 // Atlas
 let url = "mongodb+srv://admin:Senac123@clusterconest.059s1l6.mongodb.net/dbconest"
 
-// Conectar
-const conectar = async () => {
-    try {
-        await mongoose.connect(url)
-        console.log("Conectado ao MongoDB")
-    } catch (error) {
-        console.log(`Problema ao tentar conectar: ${error.message}`)
+// Variável para armazenar o status da conexão
+let isConnected = false
+
+// status da conexão
+const dbStatus = async () => {
+    if (isConnected === false) {
+        await conectar()
     }
 }
 
+// Conectar
+const conectar = async () => {
+
+    // se não estiver conectado
+    if (isConnected === false) {
+        try {
+            await mongoose.connect(url)
+            isConnected = true
+            console.log("MongoDB conectado")
+            return (isConnected)
+        } catch (error) {
+            console.log(`Problema detectado: ${error}`)
+        }
+    }
+}
+
+
 // Desconectar
 const desconectar = async () => {
-    try {
-        await mongoose.disconnect(url)
-        console.log("Desconectado do MongoDB")
-    } catch (error) {
-        console.log(`Problema a tentar desconectar: ${error.message}`)
+    if (isConnected === true) {
+        try {
+            await mongoose.disconnect(url)
+            isConnected = false            
+            console.log("MongoDB desconectado")
+        } catch (error) {
+            console.log(`Problema detectado: ${error}`)
+        }
     }
 }
 
 // Exportar para o main os métodos conectar e desconectar
-module.exports = { conectar, desconectar }
+module.exports = { dbStatus, desconectar }

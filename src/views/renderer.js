@@ -22,12 +22,12 @@ function relatorio() {
     api.openRelatorio()
 }
 
-api.dbMessage((event, message) =>{
+// alteração do ícone do status do banco de dados
+api.dbMessage((event, message) => {
     console.log(message)
     if (message === "conectado") {
-        document.getElementById("dbstatus").src = "../public/img/dbon.png"
+        document.getElementById('dbstatus').src = "../public/img/dbon.png"
     } else {
-        document.getElementById("dbstatus").src = "../public/img/dboff.png"
+        document.getElementById('dbstatus').src = "../public/img/dboff.png"
     }
-
 })
