@@ -360,6 +360,53 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Aviso!!! (Busca: Prenchimento de campo obrigatório)
+ipcMain.on('dialog-infoSearchDialog', (event) => {
+    dialog.showMessageBox({
+        type: 'warning',
+        title: 'Atenção!',
+        message: 'Preencha o nome do cliente',
+        buttons: ['Ok']
+    })
+
+    event.reply('focus-search')
+})
+
+// Recebimento do pedido de busca do cliente pelo nome (Passo 1 - Slide)
+ipcMain.on('search-client', async (event, nomeCliente) => {
+    console.log(nomeCliente)
+    // Passo 2 : Busca no banco de dados
+    try {
+        // find() "metodo de busca", newRegex 'i' case insensitive
+        const dadosCliente = await clienteModel.find({nomeCliente: new RegExp(nomeCliente, 'i') }) // Passo 2
+        console.log(dadosCliente) // Passo 3 (recebimento dos dados do cliente)
+        // UX -> Se o cliente não estiver cadastrardo, avisar ao usuário e habilitar o botão cadastrar
+        if (dadosCliente.length === 0) {
+            dialog.showMessageBox({
+                type: 'warning',
+                title: 'Aviso!',
+                message: 'Cliente não encontrado.\nDeseja cadastrar este cliente?',
+                buttons: ['Sim', 'Não'],
+                defaultId: 0
+            }).then((result)=>{
+                if (result.response === 0) {
+                    // Setar o nome do cliente no form e habilita o botão cadastrar
+                    event.reply('name-cliente')
+                } else {
+                    // Limpar a caixa de busca
+                    event.reply('clear-search')
+                }
+            })
+
+
+        } else {
+            // Passo 4 (Enviar os dados do cliente ao renderizador)
+
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
