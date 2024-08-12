@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, Menu, shell, nativeTheme, dialog } = require('electron')
+const { ipcMain, nativeTheme, dialog } = require('electron')
+const {app, BrowserWindow, Menu, shell} = require('electron/main')
 const path = require('node:path')
 
 // Importar o módulo de conexão
@@ -311,7 +312,6 @@ ipcMain.on('new-client', async (event, cliente) => {
             foneCliente: cliente.foneCli,
             emailCliente: cliente.emailCli
         })
-
         await novoCliente.save() // save() - moongoose
         dialog.showMessageBox({
             type: 'info',
@@ -319,6 +319,7 @@ ipcMain.on('new-client', async (event, cliente) => {
             message: 'Cliente cadastrado com sucesso!',
             buttons: ['Ok']
         })
+        event.reply('reset-form')
     } catch (error) {
         console.log(error)
     }
@@ -365,7 +366,7 @@ ipcMain.on('dialog-infoSearchDialog', (event) => {
     dialog.showMessageBox({
         type: 'warning',
         title: 'Atenção!',
-        message: 'Pesquise o cliente no campo de busca',
+        message: 'Preencha um nome no campo de busca',
         buttons: ['Ok']
     })
 
