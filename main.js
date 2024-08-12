@@ -365,7 +365,7 @@ ipcMain.on('dialog-infoSearchDialog', (event) => {
     dialog.showMessageBox({
         type: 'warning',
         title: 'Atenção!',
-        message: 'Preencha o nome do cliente',
+        message: 'Pesquise o cliente no campo de busca',
         buttons: ['Ok']
     })
 
@@ -401,7 +401,7 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
 
         } else {
             // Passo 4 (Enviar os dados do cliente ao renderizador)
-
+            event.reply('data-client', JSON.stringify(dadosCliente))
         }
     } catch (error) {
         console.log(error)
