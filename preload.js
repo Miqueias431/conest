@@ -26,7 +26,9 @@ contextBridge.exposeInMainWorld('api', {
     dataClient: (dadosCliente) => ipcRenderer.on('data-client',dadosCliente),
     resetForm: (args) => ipcRenderer.on('reset-form', args),
     updateClient: (cliente) => ipcRenderer.send('update-client', cliente),
-    deleteClient: (idCli) => ipcRenderer.send('delete-client', idCli)
+    deleteClient: (idCli) => ipcRenderer.send('delete-client', idCli),
+    clearClient:(clearCliente) => ipcRenderer.on('clear-all-client', clearCliente),
+    focusClient:(focusCliente) => ipcRenderer.on('focus-client', focusCliente)
 })
 
 // Inserir data na pagina

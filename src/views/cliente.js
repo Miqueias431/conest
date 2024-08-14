@@ -98,9 +98,9 @@ function buscarCliente() {
         // Passo 5 (final) Percorrer o array, extrair os dados e setar os campos de texto (caixas input) do formulário
         arrayCliente.forEach((c) => {
             document.getElementById('inputId').value = c._id,
-                document.getElementById('inputNameClient').value = c.nomeCliente,
-                document.getElementById('inputPhoneClient').value = c.foneCliente,
-                document.getElementById('inputEmailClient').value = c.emailCliente
+            document.getElementById('inputNameClient').value = c.nomeCliente,
+            document.getElementById('inputPhoneClient').value = c.foneCliente,
+            document.getElementById('inputEmailClient').value = c.emailCliente
             // limpar a caixa de busca (UX)
             document.getElementById('inputSearch').value = ""
             //remover o foco e desativar a caixa de busca
@@ -139,11 +139,37 @@ function excluirCliente() {
     console.log(idCli) // teste passo 1
 
     api.deleteClient(idCli) // Passo 2 - enviar o id do cliente a main.js
+
+        document.getElementById("btnRead").disabled = false
+        document.getElementById('inputSearch').disabled = false
+        document.getElementById('inputSearch').focus()
+        document.getElementById("btnDelete").disabled = true
+        document.getElementById("btnUpdate").disabled = true
 }
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+
 // Reset Form >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+// APIs para melhorar a parte de excluir e editar o cliente
+api.clearClient((clearClient) => {
+    console.log("Campo limpo")
+    formCliente.reset()
+})
+
+api.focusClient((focusClient) => {
+    //remover o foco e desativar a caixa de busca
+    document.getElementById('inputSearch').disabled = true
+    document.getElementById("inputSearch").blur()
+    //desativar os botão adicionar e buscar
+    document.getElementById("btnCreate").disabled = true
+    document.getElementById("btnRead").disabled = true
+    // ativar os botões update e delete
+    document.getElementById("btnUpdate").disabled = false
+    document.getElementById("btnDelete").disabled = false
+})
+// Fim das APIS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 api.resetForm((args) => {
     resetForm()
 })

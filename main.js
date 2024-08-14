@@ -430,7 +430,8 @@ ipcMain.on('update-client', async (event, cliente) => {
             type: 'info',
             title: 'Aviso',
             message: 'Dados do cliente alterados com sucesso.',
-            buttons: ['Ok']
+            buttons: ['Ok'],
+            defaultId: 0
         })
         event.reply('reset-form')
     } catch (error) {
@@ -454,6 +455,7 @@ ipcMain.on('delete-client', (event, idCli) => {
             // Passo 3 (excluir cliente do banco)
             try {
                 await clienteModel.findByIdAndDelete(idCli)
+                event.reply('clear-all-client')
                 dialog.showMessageBox({
                     type: 'info',
                     title: 'Aviso',
@@ -463,6 +465,8 @@ ipcMain.on('delete-client', (event, idCli) => {
             } catch (error) {
                 console.log(error)
             }
+        } else {
+            event.reply('focus-client')
         }
     })
 })
