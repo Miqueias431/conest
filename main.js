@@ -1,5 +1,5 @@
 const { ipcMain, nativeTheme, dialog } = require('electron')
-const {app, BrowserWindow, Menu, shell} = require('electron/main')
+const { app, BrowserWindow, Menu, shell } = require('electron/main')
 const path = require('node:path')
 
 // Importar o módulo de conexão
@@ -10,8 +10,9 @@ const { dbStatus, desconectar } = require('./database.js')
 let dbCon = null
 
 // Importação do Schema (model) das coleções("tabelas")
-const clienteModel = require ('./src/models/Cliente.js')
-const fornecedorModel = require ('./src/models/Fornecedor.js')
+const clienteModel = require('./src/models/Cliente.js')
+const fornecedorModel = require('./src/models/Fornecedor.js')
+const { crash } = require('node:process')
 
 
 // Janela Principal (definir o objeto win como variavel publica)
@@ -61,7 +62,7 @@ const aboutWindow = () => {
 }
 
 // Janela Clientes
-let clientes 
+let clientes
 
 const clientesWindow = () => {
 
@@ -181,7 +182,7 @@ const relatorioWindow = () => {
 
 // Iniciar a aplicação
 app.whenReady().then(() => {
-    
+
     // status de conexão com o banco de dados
     ipcMain.on('send-message', async (event, message) => {
         dbCon = await dbStatus()
@@ -256,35 +257,35 @@ const template = [
     {
         label: 'Exibir',
         submenu: [
-          {
-            label: 'Recarregar',
-            role: 'reload'
-          },
-          {
-            label: 'Ferramentas do desenvolvedor',
-            role: 'toggleDevTools'
-          },
-          {
-            type: 'separator'
-          },
-          {
-            label: 'Aplicar zoom',
-            role: 'zoomIn'
-          },
-          {
-            label: 'Reduzir',
-            role: 'zoomOut'
-          },
-          {
-            label: 'Restalra o zoom padrão',
-            role: 'resetZoom'
-          }
+            {
+                label: 'Recarregar',
+                role: 'reload'
+            },
+            {
+                label: 'Ferramentas do desenvolvedor',
+                role: 'toggleDevTools'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Aplicar zoom',
+                role: 'zoomIn'
+            },
+            {
+                label: 'Reduzir',
+                role: 'zoomOut'
+            },
+            {
+                label: 'Restalra o zoom padrão',
+                role: 'resetZoom'
+            }
         ]
-      },
-      {
+    },
+    {
         label: 'Relatório',
         click: () => relatorioWindow()
-      },
+    },
     {
         label: 'Ajuda',
         submenu: [
@@ -326,7 +327,7 @@ ipcMain.on('new-client', async (event, cliente) => {
 })
 
 ipcMain.on('new-fornecedor', async (event, fornecedor) => {
-    console.log(fornecedor) 
+    console.log(fornecedor)
     // Passo 3 (slide): Cadastrar o fornecedor no MongoDB
     try {
         // Extrair os dados do objeto
@@ -342,7 +343,7 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
             bairroFornecedor: fornecedor.bairroFor,
             cidFornecedor: fornecedor.cidFor,
             ufFornecedor: fornecedor.ufFor
-            
+
         })
 
         await novoFornecedor.save() // save() - moongoose
@@ -379,7 +380,7 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
     // Passo 2 : Busca no banco de dados
     try {
         // find() "metodo de busca", newRegex 'i' case insensitive
-        const dadosCliente = await clienteModel.find({nomeCliente: new RegExp(nomeCliente, 'i') }) // Passo 2
+        const dadosCliente = await clienteModel.find({ nomeCliente: new RegExp(nomeCliente, 'i') }) // Passo 2
         console.log(dadosCliente) // Passo 3 (recebimento dos dados do cliente)
         // UX -> Se o cliente não estiver cadastrardo, avisar ao usuário e habilitar o botão cadastrar
         if (dadosCliente.length === 0) {
@@ -389,7 +390,7 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
                 message: 'Cliente não encontrado.\nDeseja cadastrar este cliente?',
                 buttons: ['Sim', 'Não'],
                 defaultId: 0
-            }).then((result)=>{
+            }).then((result) => {
                 if (result.response === 0) {
                     // Setar o nome do cliente no form e habilita o botão cadastrar
                     event.reply('name-cliente')
@@ -398,8 +399,6 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
                     event.reply('clear-search')
                 }
             })
-
-
         } else {
             // Passo 4 (Enviar os dados do cliente ao renderizador)
             event.reply('data-client', JSON.stringify(dadosCliente))
@@ -411,7 +410,62 @@ ipcMain.on('search-client', async (event, nomeCliente) => {
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('update-client', async (event, cliente) => {
+    console.log(cliente) // Teste do passo 2 - slide
+    // Passo 3 (slide): Cadastrar o cliente no MongoDB
+
+    try {
+        // Extrair os dados do objeto
+        const clienteEditado = await clienteModel.findByIdAndUpdate(
+            cliente.idCli, {
+            nomeCliente: cliente.nomeCli,
+            foneCliente: cliente.foneCli,
+            emailCliente: cliente.emailCli
+        },
+            {
+                new: true
+            }
+        )
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'Aviso',
+            message: 'Dados do cliente alterados com sucesso.',
+            buttons: ['Ok']
+        })
+        event.reply('reset-form')
+    } catch (error) {
+        console.log(error)
+    }
+})
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('delete-client', (event, idCli) => {
+    console.log(idCli) // Teste do passo 2 - slide
+    // Importante! Confirma a ação antes de excluir do banco
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'ATENÇÃO!',
+        message: 'Tem certeza que deseja apagar este cliente?',
+        defaultId: 0,
+        buttons: ['Sim', 'Não']
+    }).then(async (result) => {
+        if (result.response === 0) {
+            // Passo 3 (excluir cliente do banco)
+            try {
+                await clienteModel.findByIdAndDelete(idCli)
+                dialog.showMessageBox({
+                    type: 'info',
+                    title: 'Aviso',
+                    message: 'Cliente excluído com sucesso!',
+                    buttons: ['Ok']
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+})
+
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
