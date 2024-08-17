@@ -21,12 +21,17 @@ contextBridge.exposeInMainWorld('api', {
     infoSearchDialog: () => ipcRenderer.send('dialog-infoSearchDialog'),
     focusSearch: (args) => ipcRenderer.on('focus-search', args),
     searchClient: (nomeCliente) => ipcRenderer.send('search-client', nomeCliente),
+    searchFornecedor: (nomeFornecedor) => ipcRenderer.send('search-fornecedor', nomeFornecedor),
     nameClient: (args) => ipcRenderer.on('name-cliente', args),
+    nameFornecedor: (args) => ipcRenderer.on('name-fornecedor', args),
     clearSearch: (args) => ipcRenderer.on('clear-search', args),
     dataClient: (dadosCliente) => ipcRenderer.on('data-client',dadosCliente),
+    dataFornecedor: (dadosFornecedor) => ipcRenderer.on('data-fornecedor',dadosFornecedor),
     resetForm: (args) => ipcRenderer.on('reset-form', args),
     updateClient: (cliente) => ipcRenderer.send('update-client', cliente),
+    updateFornecedor: (fornecedor) => ipcRenderer.send('update-fornecedor', fornecedor),
     deleteClient: (idCli) => ipcRenderer.send('delete-client', idCli),
+    deleteFornecedor: (idForn) => ipcRenderer.send('delete-fornecedor', idForn),
     clearClient:(clearCliente) => ipcRenderer.on('clear-all-client', clearCliente),
     focusClient:(focusCliente) => ipcRenderer.on('focus-client', focusCliente)
 })

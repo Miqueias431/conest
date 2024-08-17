@@ -1,9 +1,3 @@
-const read = require ('readline-sync')
-
-function teste() {
-    alert('teste')
-}
-
 function buscarcep() {
     let valor
     valor = String(frmFornecedor.txtCEP.value)

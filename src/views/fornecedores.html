@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-4">
-                <button type="button" class="btn btn-outline-dark" id="btnRead">Buscar</button>
+                <button type="button" class="btn btn-outline-dark" id="btnRead" onclick="buscarFornecedor()">Buscar</button>
             </div>
 
             <hr class="border border-secondary border-1 opacity-75">
@@ -51,12 +51,12 @@
 
             <div class="col-6">
                 <label for="inputCnpj" class="form-label">CNPJ</label>
-                <input type="text" class="form-control" id="inputCnpj" maxlength="14" spellcheck="false">
+                <input type="text" class="form-control" id="inputCnpj"  maxlength="14" spellcheck="false">
             </div>
 
             <div class="col-md-7">
                 <label for="inputCEP" class="form-label">Digite o CEP:</label>
-                <input type="text" maxlength="9" class="form-control" id="inputCEP" name="txtCEP">
+                <input type="text" maxlength="9" class="form-control" required id="inputCEP" name="txtCEP">
             </div>
             
             <div class="col-md-3 ">
@@ -71,7 +71,7 @@
 
             <div class="col-md-2">
                 <label for="inputNumero" class="form-label">Número:</label>
-                <input type="text" class="form-control" id="inputNumero" name="inputNumero" maxlength="5">
+                <input type="text" class="form-control" id="inputNumero" required name="inputNumero" maxlength="5">
             </div>
 
             <div class="col-md-5">
@@ -94,15 +94,11 @@
                 <input type="text" class="form-control" id="inputUF" name="inputUF" maxlength="2">
             </div>
 
-
-
-
-
             <div class="col-12">
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
-                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar</button>
-                <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
-                <button type="reset" class="btn" id="btnReset"></button>
+                <button type="button" class="btn btn-warning" id="btnUpdate" onclick="editarFornecedor()">Editar</button>
+                <button type="button" class="btn btn-danger" id="btnDelete" onclick="excluirFornecedor()">Excluir</button>
+                <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
             </div>
         </form>
     </div>

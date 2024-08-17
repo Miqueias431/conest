@@ -53,6 +53,7 @@ formCliente.addEventListener('submit', async (event) => {
     formCliente.reset()
 })
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 // CRUD Read >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // array(vetor) usado na renderização dos dados do cliente
 let arrayCliente = []
@@ -76,7 +77,7 @@ function buscarCliente() {
     api.nameClient((args) => {
         // Restaurar o comportamento padrão da tecla Enter
         //removerTeclaEnter()
-        let setarNomeCliente = document.getElementById('inputSearch').value
+        let setarNomeCliente = document.getElementById('inputSearch').value.trim().replace(/\s+/g, ' ')
         document.getElementById('inputNameClient').value += setarNomeCliente
         document.getElementById('inputSearch').value = ""
         document.getElementById('inputSearch').blur()
@@ -98,9 +99,9 @@ function buscarCliente() {
         // Passo 5 (final) Percorrer o array, extrair os dados e setar os campos de texto (caixas input) do formulário
         arrayCliente.forEach((c) => {
             document.getElementById('inputId').value = c._id,
-            document.getElementById('inputNameClient').value = c.nomeCliente,
-            document.getElementById('inputPhoneClient').value = c.foneCliente,
-            document.getElementById('inputEmailClient').value = c.emailCliente
+                document.getElementById('inputNameClient').value = c.nomeCliente,
+                document.getElementById('inputPhoneClient').value = c.foneCliente,
+                document.getElementById('inputEmailClient').value = c.emailCliente
             // limpar a caixa de busca (UX)
             document.getElementById('inputSearch').value = ""
             //remover o foco e desativar a caixa de busca
@@ -130,7 +131,15 @@ function editarCliente() {
     console.log(cliente) // Teste do passo 1
     // Passo 2: Enviar o objeto cliente a o main.js
     api.updateClient(cliente)
+
+    document.getElementById("btnRead").disabled = false
+    document.getElementById('inputSearch').disabled = false
+    document.getElementById('inputSearch').focus()
+    document.getElementById("btnDelete").disabled = true
+    document.getElementById("btnUpdate").disabled = true
+
 }
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // CRUD Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -140,11 +149,11 @@ function excluirCliente() {
 
     api.deleteClient(idCli) // Passo 2 - enviar o id do cliente a main.js
 
-        document.getElementById("btnRead").disabled = false
-        document.getElementById('inputSearch').disabled = false
-        document.getElementById('inputSearch').focus()
-        document.getElementById("btnDelete").disabled = true
-        document.getElementById("btnUpdate").disabled = true
+    document.getElementById("btnRead").disabled = false
+    document.getElementById('inputSearch').disabled = false
+    document.getElementById('inputSearch').focus()
+    document.getElementById("btnDelete").disabled = true
+    document.getElementById("btnUpdate").disabled = true
 }
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
