@@ -346,7 +346,6 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
             bairroFornecedor: fornecedor.bairroFor,
             cidFornecedor: fornecedor.cidFor,
             ufFornecedor: fornecedor.ufFor
-
         })
 
         await novoFornecedor.save() // save() - moongoose
@@ -378,6 +377,8 @@ ipcMain.on('dialog-infoSearchDialog', (event) => {
 
     event.reply('focus-search')
 })
+
+
 
 // Recebimento do pedido de busca do cliente pelo nome (Passo 1 - Slide)
 ipcMain.on('search-client', async (event, nomeCliente) => {
@@ -449,6 +450,7 @@ ipcMain.on('search-fornecedor', async (event, nomeFornecedor) => {
 ipcMain.on('update-client', (event, cliente) => {
     console.log(cliente) // Teste do passo 2 - slide
     // Passo 3 (slide): Cadastrar o cliente no MongoDB
+    
     dialog.showMessageBox({
         type: 'warning',
         title: 'Aviso',
@@ -490,7 +492,18 @@ ipcMain.on('update-client', (event, cliente) => {
 
 ipcMain.on('update-fornecedor', (event, fornecedor) => {
     console.log(fornecedor)
-
+    // Fazer o nome do fornecedor ser um campo obrigatório
+    if (fornecedor.nomeFor === '' || fornecedor.foneFor === '' || fornecedor.emailFor === '' || fornecedor.cep === '') {
+        dialog.showMessageBox({
+            type: 'warning',
+            title: 'Aviso',
+            message: 'Preencha os campos obrigatórios',
+            buttons: ['Ok'],
+            defaultId: 0
+        })
+        event.reply('focus-client')
+        return
+    }
     dialog.showMessageBox({
         type: 'warning',
         title: 'Aviso',

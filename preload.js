@@ -42,7 +42,8 @@ contextBridge.exposeInMainWorld('api', {
     deleteFornecedor: (idForn) => ipcRenderer.send('delete-fornecedor', idForn),
     // Limpar todos os clientes e fornecedores
     clearClient:(clearCliente) => ipcRenderer.on('clear-all-client', clearCliente),
-    focusClient:(focusCliente) => ipcRenderer.on('focus-client', focusCliente)
+    focusClient:(focusCliente) => ipcRenderer.on('focus-client', focusCliente),
+
 })
 
 // Inserir data na pagina

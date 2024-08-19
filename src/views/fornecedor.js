@@ -140,6 +140,7 @@ function editarFornecedor() {
     document.getElementById('inputSearch').focus()
     document.getElementById("btnDelete").disabled = true
     document.getElementById("btnUpdate").disabled = true
+
 }
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -179,6 +180,7 @@ api.focusClient((focusClient) => {
     document.getElementById("btnUpdate").disabled = false
     document.getElementById("btnDelete").disabled = false
 })
+
 
 api.resetForm((args) => {
     resetForm()
