@@ -40,7 +40,7 @@
             <!-- Código de Barras -->
             <div class="col-md-6">
                 <label for="barcode" class="form-label">Código de barras</label>
-                <input type="text" class="form-control" id="barcode" spellcheck="false">
+                <input type="text" class="form-control" id="barcodeProduct" spellcheck="false">
             </div>
 
             <!-- Nome do Produto -->
@@ -51,7 +51,7 @@
 
             <!-- Img do Produto -->
             <div class="col-md-5">
-                <img src="../public/img/camera.png" alt="img do produto" id="imageProduct">
+                <img src="../public/img/camera.png" alt="img do produto" id="imagemProduto">
             </div>
 
             <!-- Upload da img do produto -->
@@ -63,13 +63,14 @@
                 <button type="submit" class="btn btn-success" id="btnCreate">Adicionar</button>
                 <button type="button" class="btn btn-warning" id="btnUpdate">Editar</button>
                 <button type="button" class="btn btn-danger" id="btnDelete">Excluir</button>
-                <button type="reset" class="btn" id="btnReset"></button>
+                <button type="reset" class="btn" id="btnReset" onclick="clean()"></button>
             </div>
         </form>
     </div>
 
+    <script src="produto.js"></script>
     <script src="../public/js/bootstrap.min.js"></script>
-    <script src="./cep.js"></script>
+    
 </body>
 
 </html>

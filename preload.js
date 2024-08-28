@@ -19,6 +19,7 @@ contextBridge.exposeInMainWorld('api', {
     // Criação do cliente e fornecedor
     newClient: (cliente) => ipcRenderer.send('new-client', cliente),
     newFornecedor: (fornecedor) => ipcRenderer.send('new-fornecedor', fornecedor),
+    
     // Caixa para força a busca dos clientes ou fornecedores
     infoSearchDialog: () => ipcRenderer.send('dialog-infoSearchDialog'),
     // Foco na caixa de busca
@@ -43,7 +44,11 @@ contextBridge.exposeInMainWorld('api', {
     // Limpar todos os clientes e fornecedores
     clearClient:(clearCliente) => ipcRenderer.on('clear-all-client', clearCliente),
     focusClient:(focusCliente) => ipcRenderer.on('focus-client', focusCliente),
-
+    // Parte do produto
+    newProduct: (produto) => ipcRenderer.send('new-product', produto),
+    barcodeSearch: (barcode) => ipcRenderer.send('search-barcode', barcode),
+    setBarcode: (setCodeBar) => ipcRenderer.on('set-barcode', setCodeBar),
+    dataProdutos: (dadosProduto) => ipcRenderer.on('product-data', dadosProduto),
 })
 
 // Inserir data na pagina

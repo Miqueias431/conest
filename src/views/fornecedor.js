@@ -84,17 +84,17 @@ function buscarFornecedor() {
 
         arrayFornecedor.forEach((f) => {
             document.getElementById('inputIdForn').value = f._id,
-                document.getElementById('inputNomeFor').value = f.nomeFornecedor,
-                document.getElementById('inputPhoneFor').value = f.foneFornecedor,
-                document.getElementById('inputEmailFor').value = f.emailFornecedor,
-                document.getElementById('inputCnpj').value = f.cnpjFornecedor,
-                document.getElementById('inputCEP').value = f.cepFornecedor,
-                document.getElementById('inputLogradouro').value = f.logFornecedor,
-                document.getElementById('inputNumero').value = f.numFornecedor,
-                document.getElementById('inputComplemento').value = f.compFornecedor,
-                document.getElementById('inputBairro').value = f.bairroFornecedor,
-                document.getElementById('inputLocalidade').value = f.cidFornecedor,
-                document.getElementById('inputUF').value = f.ufFornecedor
+            document.getElementById('inputNomeFor').value = f.nomeFornecedor,
+            document.getElementById('inputPhoneFor').value = f.foneFornecedor,
+            document.getElementById('inputEmailFor').value = f.emailFornecedor,
+            document.getElementById('inputCnpj').value = f.cnpjFornecedor,
+            document.getElementById('inputCEP').value = f.cepFornecedor,
+            document.getElementById('inputLogradouro').value = f.logFornecedor,
+            document.getElementById('inputNumero').value = f.numFornecedor,
+            document.getElementById('inputComplemento').value = f.compFornecedor,
+            document.getElementById('inputBairro').value = f.bairroFornecedor,
+            document.getElementById('inputLocalidade').value = f.cidFornecedor,
+            document.getElementById('inputUF').value = f.ufFornecedor
 
             // limpar a caixa de busca (UX)
             document.getElementById('inputSearch').value = ""

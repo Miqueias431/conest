@@ -6,12 +6,8 @@ body {
 h1 {
     color: #000000;
     font-size: 30px;
-    transition: .5s;
 }
-h1:hover {
-    font-size: 35px;
-    transition: .5s;
-}
+
 
 .botaoimg {
     display: flex;
@@ -88,7 +84,7 @@ h1:hover {
 
 /* img do produto */
 
-#imageProduct {
+#imagemProduto {
     border: 1px solid #dfdfdf;
     border-radius: 5px;
     width: 260px;

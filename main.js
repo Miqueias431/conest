@@ -2,6 +2,9 @@ const { ipcMain, nativeTheme, dialog } = require('electron')
 const { app, BrowserWindow, Menu, shell } = require('electron/main')
 const path = require('node:path')
 
+//importar fs para trabalhar com os arquivos de imagens
+const fs = require('fs')
+
 // Importar o módulo de conexão
 const { dbStatus, desconectar } = require('./database.js')
 // status de conexão do banco de dados (No MongoDB é mais eficiente manter uma única conexão aberta durante todo o tempo de vida do aplicativo e usá-la conforme necessário. Fechar e reabrir a conexão frequentemente pode aumentar a sobrecarga e causar problemas de desempenho)
@@ -12,6 +15,7 @@ let dbCon = null
 // Importação do Schema (model) das coleções("tabelas")
 const clienteModel = require('./src/models/Cliente.js')
 const fornecedorModel = require('./src/models/Fornecedor.js')
+const produtoModel = require('./src/models/Produto.js')
 const { crash } = require('node:process')
 
 
@@ -302,7 +306,7 @@ const template = [
 // Função para verificar status de conexão com o banco de dados
 
 
-// CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// CRUD Create >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ipcMain.on('new-client', async (event, cliente) => {
     console.log(cliente) // Teste do passo 2 - slide
@@ -327,7 +331,7 @@ ipcMain.on('new-client', async (event, cliente) => {
     }
 })
 
-
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ipcMain.on('new-fornecedor', async (event, fornecedor) => {
     console.log(fornecedor)
@@ -361,7 +365,39 @@ ipcMain.on('new-fornecedor', async (event, fornecedor) => {
         console.log(error)
     }
 })
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('new-product', async (event, produto) => {
+    console.log(produto)
+    try {
 
+        const uploadsDir = path.join(__dirname, 'uploads')
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir)
+        }
+
+        const fileName = `${Date.now()}_${path.basename(produto.imagemProduto)}`
+        const destination = path.join(uploadsDir, fileName);
+
+        fs.copyFileSync(produto.imagemProduto, destination);
+
+        const novoProduto = new produtoModel({
+            barcode: produto.barcode,
+            nomeProduto: produto.nomeProduto,
+            imagemProduto: destination
+        })
+
+        // const novoProduto = new produtoModel(produto)
+        await novoProduto.save()
+        dialog.showMessageBox({
+            type: 'info',
+            title: 'CONEST',
+            message: 'Produto cadastrado com sucesso',
+            buttons: ['OK']
+        })
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -442,6 +478,34 @@ ipcMain.on('search-fornecedor', async (event, nomeFornecedor) => {
     } catch (error) {
         console.log(error)
     }
+})
+
+// Fim do Read Fornecedor >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ipcMain.on('search-barcode', async (event, barcode) => {
+    console.log(barcode)
+
+    try {
+        const dadosProduto = await produtoModel.find({ barcode: barcode })
+        if (dadosProduto.length === 0) {
+            dialog.showMessageBox({
+                type: 'question',
+                title: 'CONEST',
+                message: 'Produto não cadastrado.\nDeseja cadastrar este produto?',
+                buttons: ['Sim', 'Não']
+            }).then((result) => {
+                if (result.response === 0) {
+                    event.reply('set-barcode')
+                } else {
+                    event.reply('clear-search')
+                }
+            })
+        } else {
+            event.reply('product-data', JSON.stringify(dadosProduto))
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
