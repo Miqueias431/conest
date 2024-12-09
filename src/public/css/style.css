@@ -62,6 +62,12 @@ h1 {
     display: none;
 }
 
+/* esconder id produto */
+
+#InputIdProduct{
+    display: none;
+}
+
 /* Inserir img no botão reset */
 
 #btnReset {
